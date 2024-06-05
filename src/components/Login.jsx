@@ -1,7 +1,21 @@
+import { useState } from "react";
+
 export default function Login() {
-  function handleSubmit(event){
+  const [enteredValue, setEnteredValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  function handleChange(event) {
+    setEnteredValue((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  }
+
+  function handleSubmit(event) {
     event.preventDefault(); // prevent page from reloading
-    console.log('submitted');
+    console.log(enteredValue);
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -10,12 +24,24 @@ export default function Login() {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={enteredValue.email}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            value={enteredValue.password}
+            onChange={handleChange}
+          />
         </div>
       </div>
 

@@ -46,7 +46,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
-            onBlur={handleInputBlur}
+            onBlur={handleInputBlur} // validates on blur means runs after its not focused on this input
             value={enteredValue.email}
             onChange={handleChange}
           />

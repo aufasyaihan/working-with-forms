@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./Inout";
+import { hasMinLength, isEmail, isNotEmpty } from "../util/validation";
 
 export default function Login() {
   const [enteredValue, setEnteredValue] = useState({
@@ -12,9 +13,11 @@ export default function Login() {
     password: false,
   });
 
-  const emailIsInvalid = didEdit.email && !enteredValue.email.includes("@"); // validates on every keystroke change
+  const emailIsInvalid =
+    didEdit.email &&
+    (!isEmail(enteredValue.email) || !isNotEmpty(enteredValue.email)); // validates on every keystroke change
   const passwordIsInvalid =
-    didEdit.password && !enteredValue.password.trim("").length < 8; // validates on every keystroke change
+    didEdit.password && !hasMinLength(enteredValue.password, 8); // validates on every keystroke change
 
   function handleChange(event) {
     setEnteredValue((prevValues) => ({
@@ -36,6 +39,11 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault(); // prevent page from reloading
+
+    if (!emailIsInvalid || !passwordIsInvalid) {
+      return;
+    }
+
     console.log(enteredValue);
   }
 

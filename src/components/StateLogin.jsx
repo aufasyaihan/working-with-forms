@@ -6,13 +6,28 @@ export default function Login() {
     password: "",
   });
 
-  const emailIsInvalid =
-    enteredValue.email !== "" && !enteredValue.email.includes("@");
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+
+  const emailIsInvalid = didEdit.email && !enteredValue.email.includes("@"); // validates on every keystroke change
 
   function handleChange(event) {
-    setEnteredValue((prevState) => ({
-      ...prevState,
+    setEnteredValue((prevValues) => ({
+      ...prevValues,
       [event.target.name]: event.target.value,
+    }));
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [event.target.name]: false,
+    }));
+  }
+
+  function handleInputBlur(event) {
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [event.target.name]: true,
     }));
   }
 
@@ -31,6 +46,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={handleInputBlur}
             value={enteredValue.email}
             onChange={handleChange}
           />
